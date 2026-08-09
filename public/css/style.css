@@ -414,6 +414,42 @@ button { font-family: inherit; cursor: pointer; }
 .amount-btn:hover { border-color: var(--gold-500); }
 .amount-btn.selected { border-color: var(--green-700); background: var(--green-700); color: var(--white); }
 
+/* Team grid (About page) */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.team-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 22px;
+  text-align: center;
+}
+.team-card img {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 14px;
+}
+.team-card h4 { font-size: 16px; margin-bottom: 4px; }
+.team-role { font-size: 13px; color: var(--green-700); font-weight: 700; margin-bottom: 8px; }
+.team-bio { font-size: 13px; color: var(--ink-600); line-height: 1.5; }
+
+/* Program detail page */
+.program-icon-lg {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+.program-icon-lg svg { width: 30px; height: 30px; }
+.program-icon-lg.green { background: var(--green-700); }
+.program-icon-lg.gold { background: var(--gold-500); }
+.program-icon-lg.blue { background: var(--blue-600); }
+
 /* Full gallery page */
 .full-gallery-grid {
   display: grid;
@@ -464,12 +500,14 @@ button { font-family: inherit; cursor: pointer; }
   .nav-toggle { display: block; }
   .about-grid, .story-gallery-grid, .mv-grid { grid-template-columns: 1fr; }
   .programs-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
   .news-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
   .fs-value { font-size: 13px; }
 }
 @media (max-width: 560px) {
   .programs-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
   .value-pills { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; }
   .gallery-mini-grid { grid-template-columns: repeat(3, 1fr); }

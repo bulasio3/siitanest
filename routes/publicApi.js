@@ -19,6 +19,7 @@ router.get('/settings', (req, res) => res.json(db.get('settings').value()));
 router.get('/stats', (req, res) => res.json(db.get('stats').value()));
 router.get('/programs', (req, res) => res.json(db.get('programs').value()));
 router.get('/gallery', (req, res) => res.json(db.get('gallery').value()));
+router.get('/team', (req, res) => res.json(db.get('team').value()));
 router.get('/stories', (req, res) =>
   res.json(db.get('stories').filter((s) => s.published !== false).value())
 );

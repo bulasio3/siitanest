@@ -103,6 +103,8 @@ async function loadSettings() {
   $('s-heroSubtext').value = s.heroSubtext || '';
   $('s-aboutTitle').value = s.aboutTitle || '';
   $('s-aboutText').value = s.aboutText || '';
+  $('s-historyTitle').value = s.historyTitle || '';
+  $('s-historyText').value = s.historyText || '';
   $('s-missionText').value = s.missionText || '';
   $('s-visionText').value = s.visionText || '';
   $('s-address').value = s.address || '';
@@ -145,6 +147,8 @@ async function saveSettings() {
       heroSubtext: $('s-heroSubtext').value.trim(),
       aboutTitle: $('s-aboutTitle').value.trim(),
       aboutText: $('s-aboutText').value.trim(),
+      historyTitle: $('s-historyTitle').value.trim(),
+      historyText: $('s-historyText').value.trim(),
       missionText: $('s-missionText').value.trim(),
       visionText: $('s-visionText').value.trim(),
       address: $('s-address').value.trim(),
@@ -246,6 +250,8 @@ async function loadPrograms() {
       $('program-title').value = p.title;
       $('program-color').value = p.color || 'green';
       $('program-bullets').value = (p.bullets || []).join('\n');
+      $('program-details').value = p.details || '';
+      if (p.image) $('program-image-preview').style.backgroundImage = `url('${p.image}')`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
   );
@@ -262,18 +268,23 @@ async function loadPrograms() {
 function resetProgramForm() {
   $('program-form').reset();
   $('program-id').value = '';
+  $('program-image-preview').style.backgroundImage = '';
+  $('program-image-status').textContent = '';
 }
 
 async function submitProgramForm(e) {
   e.preventDefault();
   const id = $('program-id').value;
   const bullets = $('program-bullets').value.split('\n').map((b) => b.trim()).filter(Boolean);
+  const imageUrl = await uploadImage($('program-image-file'), 'programs', $('program-image-preview'), $('program-image-status'));
   const payload = {
     title: $('program-title').value.trim(),
     color: $('program-color').value,
     bullets,
-    summary: bullets.join(', ')
+    summary: bullets.join(', '),
+    details: $('program-details').value.trim()
   };
+  if (imageUrl) payload.image = imageUrl;
   try {
     if (id) {
       await api(`/api/admin/programs/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
@@ -422,6 +433,84 @@ async function submitStoryForm(e) {
     }
     resetStoryForm();
     loadStories();
+  } catch (err) {
+    toast(err.message, true);
+  }
+}
+
+// ---------- Team ----------
+async function loadTeam() {
+  const team = await api('/api/admin/team');
+  const list = $('team-list');
+  if (!team.length) {
+    list.innerHTML = '<div class="empty-state">No team members yet. Add one above.</div>';
+    return;
+  }
+  list.innerHTML = team
+    .map(
+      (t) => `
+    <div class="item-row">
+      <img class="thumb" src="${escapeHtml(t.image || '/images/about-default.svg')}" alt="">
+      <div class="info">
+        <strong>${escapeHtml(t.name)}</strong>
+        <span>${escapeHtml(t.role || '')}</span>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-sm btn-secondary" data-edit="${t.id}">Edit</button>
+        <button class="btn btn-sm btn-danger" data-delete="${t.id}">Delete</button>
+      </div>
+    </div>`
+    )
+    .join('');
+  list.querySelectorAll('[data-edit]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const t = team.find((x) => x.id === btn.dataset.edit);
+      $('team-id').value = t.id;
+      $('team-name').value = t.name || '';
+      $('team-role').value = t.role || '';
+      $('team-bio').value = t.bio || '';
+      if (t.image) $('team-image-preview').style.backgroundImage = `url('${t.image}')`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+  );
+  list.querySelectorAll('[data-delete]').forEach((btn) =>
+    btn.addEventListener('click', async () => {
+      if (!confirm('Remove this team member?')) return;
+      await api(`/api/admin/team/${btn.dataset.delete}`, { method: 'DELETE' });
+      toast('Team member removed.');
+      loadTeam();
+    })
+  );
+}
+
+function resetTeamForm() {
+  $('team-form').reset();
+  $('team-id').value = '';
+  $('team-image-preview').style.backgroundImage = '';
+  $('team-image-status').textContent = '';
+}
+
+async function submitTeamForm(e) {
+  e.preventDefault();
+  const id = $('team-id').value;
+  try {
+    const imageUrl = await uploadImage($('team-image-file'), 'misc', $('team-image-preview'), $('team-image-status'));
+    const payload = {
+      name: $('team-name').value.trim(),
+      role: $('team-role').value.trim(),
+      bio: $('team-bio').value.trim()
+    };
+    if (imageUrl) payload.image = imageUrl;
+
+    if (id) {
+      await api(`/api/admin/team/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+      toast('Team member updated.');
+    } else {
+      await api('/api/admin/team', { method: 'POST', body: JSON.stringify(payload) });
+      toast('Team member added.');
+    }
+    resetTeamForm();
+    loadTeam();
   } catch (err) {
     toast(err.message, true);
   }
@@ -582,6 +671,7 @@ async function saveAccountPassword() {
   loadStats();
   loadPrograms();
   loadGallery();
+  loadTeam();
   loadStories();
   loadNews();
   loadInquiries();
@@ -592,6 +682,8 @@ async function saveAccountPassword() {
   $('program-form').addEventListener('submit', submitProgramForm);
   $('program-cancel').addEventListener('click', resetProgramForm);
   $('gallery-add').addEventListener('click', addGalleryPhoto);
+  $('team-form').addEventListener('submit', submitTeamForm);
+  $('team-cancel').addEventListener('click', resetTeamForm);
   $('story-form').addEventListener('submit', submitStoryForm);
   $('story-cancel').addEventListener('click', resetStoryForm);
   $('news-form').addEventListener('submit', submitNewsForm);

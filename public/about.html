@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Involved — Siitanest Mother's Love Home</title>
-<meta name="description" content="Volunteer, partner, or reach out to Siitanest Mother's Love Home.">
+<title>About Us — Siitanest Mother's Love Home</title>
+<meta name="description" content="Our story, mission, vision, and team — Siitanest Mother's Love Home.">
 <link rel="icon" href="/images/favicon.png.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,51 +36,63 @@
   </div>
 </header>
 
-<section class="section" style="padding-top:56px; padding-bottom:20px;">
-  <div class="container" style="max-width:640px;">
-    <span class="eyebrow">Get Involved</span>
-    <h1 style="font-family:var(--font-display); font-size:clamp(28px,4vw,40px); margin-top:10px;">Volunteer or Partner With Us</h1>
-    <p style="color:var(--ink-600); margin-top:14px; font-size:16px; line-height:1.6;">
-      Whether you'd like to volunteer your time, partner with us as an organization, or just have a question — we'd love to hear from you.
-    </p>
+<section class="section" style="padding-bottom:24px;">
+  <div class="container about-grid">
+    <img id="about-image" src="/images/about-default.svg" alt="">
+    <div class="about-text">
+      <span class="eyebrow">About Us</span>
+      <h3 id="about-title" style="font-size:clamp(24px,3vw,32px); margin:10px 0 16px;">Who We Are</h3>
+      <p id="about-text" style="color:var(--ink-600);"></p>
+    </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-  <div class="container" style="max-width:640px;">
-    <form class="contact-form" id="inquiry-form">
+<section class="section" id="history-section" style="background:var(--cream-200);">
+  <div class="container" style="max-width:760px;">
+    <div class="section-head">
+      <span class="eyebrow">Our Story</span>
+      <h2 id="history-title">Our History</h2>
+    </div>
+    <p id="history-text" style="color:var(--ink-600); font-size:16px; line-height:1.7; white-space:pre-wrap;"></p>
+  </div>
+</section>
+
+<section class="section" style="background:var(--green-800); color:var(--white);">
+  <div class="container mv-grid">
+    <div class="mv-card">
+      <h3 style="font-size:22px; color:var(--gold-500); margin-bottom:10px;">Our Mission</h3>
+      <p id="mission-text" style="opacity:0.9;"></p>
+    </div>
+    <div class="mv-card">
+      <h3 style="font-size:22px; color:var(--gold-500); margin-bottom:10px;">Our Vision</h3>
+      <p id="vision-text" style="opacity:0.9;"></p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="team-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Our Team</span>
+      <h2>The People Behind Siitanest</h2>
+    </div>
+    <div class="team-grid" id="team-grid"></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-left">
+      <div style="font-size:28px;">&#10084;</div>
       <div>
-        <label for="f-name">Full Name</label>
-        <input type="text" id="f-name" name="name" required>
+        <h3>Want to Help?</h3>
+        <p>Every bit of support brings us closer to giving every child a real chance.</p>
       </div>
-      <div>
-        <label for="f-email">Email</label>
-        <input type="email" id="f-email" name="email" required>
-      </div>
-      <div>
-        <label for="f-phone">Phone (optional)</label>
-        <input type="tel" id="f-phone" name="phone">
-      </div>
-      <div>
-        <label for="f-type">I'm interested in</label>
-        <select id="f-type" name="type">
-          <option value="Volunteering">Volunteering</option>
-          <option value="Partnering">Partnering with the organization</option>
-          <option value="General">General inquiry</option>
-        </select>
-      </div>
-      <div>
-        <label for="f-message">Message</label>
-        <textarea id="f-message" name="message" required placeholder="Tell us a bit about how you'd like to help..."></textarea>
-      </div>
-      <!-- Honeypot field: hidden from real visitors, catches simple bots -->
-      <div class="hp-field" aria-hidden="true">
-        <label for="f-website">Website</label>
-        <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-      <div id="form-status"></div>
-      <button type="submit" class="btn btn-primary" id="form-submit" style="align-self:flex-start;">Send Message</button>
-    </form>
+    </div>
+    <div class="cta-actions">
+      <a href="/donate.html" class="btn btn-primary">&#10084; Donate Now</a>
+      <a href="/get-involved.html" class="btn btn-white">&#129309; Get Involved</a>
+    </div>
   </div>
 </section>
 
@@ -136,6 +148,6 @@
 <div class="floating-stats" id="floating-stats"></div>
 
 <script src="/js/chrome.js"></script>
-<script src="/js/get-involved.js"></script>
+<script src="/js/about-page.js"></script>
 </body>
 </html>

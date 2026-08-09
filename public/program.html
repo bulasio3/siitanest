@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Involved — Siitanest Mother's Love Home</title>
-<meta name="description" content="Volunteer, partner, or reach out to Siitanest Mother's Love Home.">
+<title>Program — Siitanest Mother's Love Home</title>
+<meta name="description" content="Our programs — Siitanest Mother's Love Home.">
 <link rel="icon" href="/images/favicon.png.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,51 +36,25 @@
   </div>
 </header>
 
-<section class="section" style="padding-top:56px; padding-bottom:20px;">
-  <div class="container" style="max-width:640px;">
-    <span class="eyebrow">Get Involved</span>
-    <h1 style="font-family:var(--font-display); font-size:clamp(28px,4vw,40px); margin-top:10px;">Volunteer or Partner With Us</h1>
-    <p style="color:var(--ink-600); margin-top:14px; font-size:16px; line-height:1.6;">
-      Whether you'd like to volunteer your time, partner with us as an organization, or just have a question — we'd love to hear from you.
-    </p>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="container" style="max-width:640px;">
-    <form class="contact-form" id="inquiry-form">
-      <div>
-        <label for="f-name">Full Name</label>
-        <input type="text" id="f-name" name="name" required>
+<section class="section" id="program-content">
+  <div class="container" style="max-width:820px;">
+    <a href="/#programs" style="font-size:14px; font-weight:700; color:var(--green-700);">&larr; Back to Programs</a>
+    <div id="program-loading" class="empty-note" style="padding:60px 0;">Loading…</div>
+    <div id="program-body" style="display:none;">
+      <div class="program-icon-lg" id="program-icon-lg"></div>
+      <span class="eyebrow" id="program-eyebrow">Program</span>
+      <h1 id="program-title" style="font-family:var(--font-display); font-size:clamp(28px,4vw,40px); margin-top:8px;"></h1>
+      <img id="program-image" src="" alt="" style="display:none; width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-md); margin:24px 0;">
+      <p id="program-details" style="color:var(--ink-600); font-size:16px; line-height:1.7; white-space:pre-wrap; margin-top:18px;"></p>
+      <div class="card" style="margin-top:28px; background:var(--cream-200); border:none; border-radius:var(--radius-md); padding:26px;">
+        <h3 style="font-size:16px; margin-bottom:14px;">What this program provides</h3>
+        <ul id="program-bullets-list" style="margin:0; padding-left:20px; color:var(--ink-900); font-size:15px; line-height:1.9;"></ul>
       </div>
-      <div>
-        <label for="f-email">Email</label>
-        <input type="email" id="f-email" name="email" required>
+      <div class="hero-cta" style="margin-top:30px;">
+        <a href="/donate.html" class="btn btn-primary">&#10084; Support This Program</a>
+        <a href="/get-involved.html" class="btn btn-outline">&#129309; Get Involved</a>
       </div>
-      <div>
-        <label for="f-phone">Phone (optional)</label>
-        <input type="tel" id="f-phone" name="phone">
-      </div>
-      <div>
-        <label for="f-type">I'm interested in</label>
-        <select id="f-type" name="type">
-          <option value="Volunteering">Volunteering</option>
-          <option value="Partnering">Partnering with the organization</option>
-          <option value="General">General inquiry</option>
-        </select>
-      </div>
-      <div>
-        <label for="f-message">Message</label>
-        <textarea id="f-message" name="message" required placeholder="Tell us a bit about how you'd like to help..."></textarea>
-      </div>
-      <!-- Honeypot field: hidden from real visitors, catches simple bots -->
-      <div class="hp-field" aria-hidden="true">
-        <label for="f-website">Website</label>
-        <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-      <div id="form-status"></div>
-      <button type="submit" class="btn btn-primary" id="form-submit" style="align-self:flex-start;">Send Message</button>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -136,6 +110,6 @@
 <div class="floating-stats" id="floating-stats"></div>
 
 <script src="/js/chrome.js"></script>
-<script src="/js/get-involved.js"></script>
+<script src="/js/program-page.js"></script>
 </body>
 </html>

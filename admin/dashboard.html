@@ -18,6 +18,7 @@
       <a href="#stats" data-panel="stats">&#128202; Impact Stats</a>
       <a href="#programs" data-panel="programs">&#128218; Programs</a>
       <a href="#gallery" data-panel="gallery">&#128247; Gallery</a>
+      <a href="#team" data-panel="team">&#128101; Our Team</a>
       <a href="#stories" data-panel="stories">&#128172; Stories</a>
       <a href="#news" data-panel="news">&#128240; News &amp; Activities</a>
       <a href="#inquiries" data-panel="inquiries">&#128233; Inquiries <span id="inquiries-badge"></span></a>
@@ -77,6 +78,7 @@
 
       <div class="card">
         <h3>About Section</h3>
+        <p class="muted" style="margin-top:-8px; margin-bottom:14px;">Used on the homepage teaser and the full About Us page.</p>
         <div class="form-grid">
           <div class="field"><label>About heading</label><input id="s-aboutTitle"></div>
           <div class="field full"><label>About paragraph</label><textarea id="s-aboutText"></textarea></div>
@@ -94,8 +96,17 @@
       </div>
 
       <div class="card">
+        <h3>Our History</h3>
+        <p class="muted" style="margin-top:-8px; margin-bottom:14px;">Shown on the About Us page. Leave the text blank to hide this section.</p>
+        <div class="form-grid">
+          <div class="field full"><label>Section heading</label><input id="s-historyTitle"></div>
+          <div class="field full"><label>History text</label><textarea id="s-historyText" style="min-height:140px;"></textarea></div>
+        </div>
+      </div>
+
+      <div class="card">
         <h3>Mission &amp; Vision</h3>
-        <p class="muted" style="margin-top:-8px; margin-bottom:14px;">Shown as a section right after "About Us" on the homepage.</p>
+        <p class="muted" style="margin-top:-8px; margin-bottom:14px;">Shown on the homepage and the About Us page.</p>
         <div class="form-grid">
           <div class="field full"><label>Mission statement</label><textarea id="s-missionText"></textarea></div>
           <div class="field full"><label>Vision statement</label><textarea id="s-visionText"></textarea></div>
@@ -175,6 +186,17 @@
             <select id="program-color"><option value="green">Green</option><option value="gold">Gold</option><option value="blue">Blue</option></select>
           </div>
           <div class="field full"><label>Bullet points (one per line)</label><textarea id="program-bullets" placeholder="School fees&#10;Uniforms&#10;Books & supplies"></textarea></div>
+          <div class="field full"><label>Full description (shown on the program's own page)</label><textarea id="program-details" style="min-height:120px;" placeholder="Tell the fuller story of this program..."></textarea></div>
+          <div class="field full">
+            <label>Photo (shown on the program's own page)</label>
+            <div class="image-upload">
+              <div class="preview" id="program-image-preview"></div>
+              <div>
+                <input type="file" accept="image/*" id="program-image-file">
+                <div class="upload-status" id="program-image-status"></div>
+              </div>
+            </div>
+          </div>
           <div class="actions-row full" style="grid-column:1/-1;">
             <button type="submit" class="btn btn-primary">Save program</button>
             <button type="button" class="btn btn-secondary" id="program-cancel">Clear form</button>
@@ -211,6 +233,41 @@
       <div class="card">
         <h3>Current photos</h3>
         <div id="gallery-list" class="item-list"></div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="panel" id="panel-team">
+      <div class="panel-head">
+        <h2>Our Team</h2>
+        <p class="muted">Staff and leaders shown on the About Us page.</p>
+      </div>
+      <div class="card">
+        <h3>Add or edit a team member</h3>
+        <form id="team-form" class="form-grid">
+          <input type="hidden" id="team-id">
+          <div class="field"><label>Name</label><input id="team-name" required></div>
+          <div class="field"><label>Role / Title</label><input id="team-role" placeholder="e.g. Founder & Director"></div>
+          <div class="field full"><label>Short bio (optional)</label><textarea id="team-bio"></textarea></div>
+          <div class="field full">
+            <label>Photo</label>
+            <div class="image-upload">
+              <div class="preview" id="team-image-preview"></div>
+              <div>
+                <input type="file" accept="image/*" id="team-image-file">
+                <div class="upload-status" id="team-image-status"></div>
+              </div>
+            </div>
+          </div>
+          <div class="actions-row" style="grid-column:1/-1;">
+            <button type="submit" class="btn btn-primary">Save team member</button>
+            <button type="button" class="btn btn-secondary" id="team-cancel">Clear form</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Current team</h3>
+        <div id="team-list" class="item-list"></div>
       </div>
     </section>
 

@@ -82,24 +82,8 @@ function renderDonateMethods(settings) {
   }
 
   initFloatingStats();
-  initAmountSelector();
   document.getElementById('donation-form').addEventListener('submit', handleDonationFormSubmit);
 })();
-
-function initAmountSelector() {
-  const buttons = document.querySelectorAll('.amount-btn');
-  const amountInput = document.getElementById('d-amount');
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      buttons.forEach((b) => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const amount = btn.dataset.amount;
-      amountInput.value = amount === 'Other' ? '' : `UGX ${amount}`;
-      if (amount === 'Other') amountInput.focus();
-      document.getElementById('donation-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  });
-}
 
 function showDonationFormStatus(message, isError) {
   const el = document.getElementById('donation-form-status');
@@ -143,7 +127,6 @@ async function handleDonationFormSubmit(e) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
     form.reset();
-    document.querySelectorAll('.amount-btn').forEach((b) => b.classList.remove('selected'));
     showDonationFormStatus("Thank you so much! We've received your notification and will follow up to confirm and thank you personally.", false);
   } catch (err) {
     showDonationFormStatus(err.message, true);
