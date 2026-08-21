@@ -16,6 +16,7 @@ function renderProgram(program) {
   }
 
   document.title = `${program.title} — Siitanest Mother's Love Home`;
+  document.getElementById('breadcrumb-program-title').textContent = program.title;
   document.getElementById('program-body').style.display = 'block';
   document.getElementById('program-icon-lg').className = `program-icon-lg ${program.color || 'green'}`;
   document.getElementById('program-icon-lg').innerHTML = PROGRAM_ICONS[program.icon] || PROGRAM_ICONS['heart-pulse'];

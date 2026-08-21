@@ -105,8 +105,17 @@ button { font-family: inherit; cursor: pointer; }
 .main-nav { display: flex; gap: 28px; }
 .main-nav a { font-size: 15px; font-weight: 500; color: var(--ink-900); }
 .main-nav a:hover { color: var(--green-700); }
-.header-actions { display: flex; align-items: center; gap: 18px; }
-.nav-toggle { display: none; background: none; border: none; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--green-800);
+  cursor: pointer;
+  padding: 4px;
+}
 
 /* Hero */
 .hero {
@@ -179,6 +188,40 @@ button { font-family: inherit; cursor: pointer; }
   .fs-label { display: inline; }
   .fs-item { gap: 10px; padding: 12px 10px; }
 }
+
+/* Back to top button */
+#back-to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 66px; /* sits just above the floating stats bar */
+  z-index: 59;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--green-700);
+  color: var(--white);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+#back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+#back-to-top:hover { background: var(--green-800); }
+
+/* Breadcrumbs */
+.breadcrumb {
+  background: var(--cream-200);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 12px 0;
+  font-size: 13px;
+}
+.breadcrumb a { color: var(--green-700); font-weight: 600; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { color: var(--ink-600); margin: 0 6px; }
+.breadcrumb span:last-child { color: var(--ink-900); font-weight: 600; margin: 0; }
 
 /* Video section */
 .video-embed {
@@ -496,7 +539,25 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Responsive */
 @media (max-width: 980px) {
-  .main-nav { display: none; }
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--white);
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .main-nav.open { display: flex; }
+  .main-nav a {
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .site-header .container { position: relative; }
   .nav-toggle { display: block; }
   .about-grid, .story-gallery-grid, .mv-grid { grid-template-columns: 1fr; }
   .programs-grid { grid-template-columns: repeat(2, 1fr); }

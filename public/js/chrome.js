@@ -121,3 +121,77 @@ async function initFloatingStats() {
     console.error(err);
   }
 }
+
+// ---------- Mobile menu ----------
+function initMobileNav() {
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+  if (!toggle || !nav) return;
+
+  function closeMenu() {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  function toggleMenu() {
+    const isOpen = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  toggle.addEventListener('click', toggleMenu);
+  // Close after tapping a link, so it doesn't stay open on the next page.
+  nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  // Close if the window is resized back up to desktop width.
+  window.addEventListener('resize', () => { if (window.innerWidth > 980) closeMenu(); });
+}
+
+// ---------- Back to top ----------
+function initBackToTop() {
+  const btn = document.createElement('button');
+  btn.id = 'back-to-top';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML = '&#8593;';
+  document.body.appendChild(btn);
+
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('show', window.scrollY > 500);
+  });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+// ---------- Newsletter signup ----------
+function initNewsletterForms() {
+  document.querySelectorAll('.newsletter-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input[type="email"]');
+      const button = form.querySelector('button');
+      const email = input.value.trim();
+      if (!email) return;
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = '...';
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+        form.reset();
+        button.textContent = 'Subscribed ✓';
+        setTimeout(() => { button.textContent = originalText; button.disabled = false; }, 2500);
+      } catch (err) {
+        alert(err.message || 'Something went wrong. Please try again.');
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMobileNav();
+  initBackToTop();
+  initNewsletterForms();
+});

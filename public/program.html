@@ -21,7 +21,7 @@
         <div class="brand-sub" id="brand-sub">Mother's Love Home</div>
       </div>
     </a>
-    <nav class="main-nav">
+    <nav class="main-nav" id="main-nav">
       <a href="/#home">Home</a>
       <a href="/#about">About Us</a>
       <a href="/#programs">Programs</a>
@@ -32,9 +32,16 @@
     </nav>
     <div class="header-actions">
       <a class="btn btn-primary" id="header-donate-btn" href="/donate.html">&#10084; Donate</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+
+<div class="breadcrumb">
+  <div class="container">
+    <a href="/#home">Home</a> <span>/</span> <a href="/#programs">Programs</a> <span>/</span> <span id="breadcrumb-program-title">Program</span>
+  </div>
+</div>
 
 <section class="section" id="program-content">
   <div class="container" style="max-width:820px;">
@@ -96,7 +103,7 @@
     <div>
       <h5>Newsletter</h5>
       <p style="font-size:13px;">Subscribe to our newsletter for updates and stories.</p>
-      <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); alert('Thanks for subscribing!');">
+      <form class="newsletter-form">
         <input type="email" placeholder="Your email address" required>
         <button type="submit">Subscribe</button>
       </form>

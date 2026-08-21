@@ -645,6 +645,54 @@ async function loadInquiries() {
   );
 }
 
+// ---------- Subscribers ----------
+async function loadSubscribers() {
+  const subscribers = await api('/api/admin/subscribers');
+  const list = $('subscribers-list');
+  $('subscribers-count').textContent = subscribers.length ? `${subscribers.length} subscriber${subscribers.length === 1 ? '' : 's'}` : '';
+
+  if (!subscribers.length) {
+    list.innerHTML = '<div class="empty-state">No subscribers yet. They\'ll show up here as people sign up through the footer newsletter form.</div>';
+    return;
+  }
+  list.innerHTML = subscribers
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map(
+      (s) => `
+    <div class="item-row">
+      <div class="info">
+        <strong>${escapeHtml(s.email)}</strong>
+        <span>${escapeHtml(new Date(s.createdAt).toLocaleDateString())}</span>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-sm btn-danger" data-delete="${s.id}">Remove</button>
+      </div>
+    </div>`
+    )
+    .join('');
+  list.querySelectorAll('[data-delete]').forEach((btn) =>
+    btn.addEventListener('click', async () => {
+      if (!confirm('Remove this subscriber?')) return;
+      await api(`/api/admin/subscribers/${btn.dataset.delete}`, { method: 'DELETE' });
+      toast('Subscriber removed.');
+      loadSubscribers();
+    })
+  );
+}
+
+async function copyAllSubscriberEmails() {
+  try {
+    const subscribers = await api('/api/admin/subscribers');
+    if (!subscribers.length) { toast('No subscribers to copy yet.', true); return; }
+    const emails = subscribers.map((s) => s.email).join(', ');
+    await navigator.clipboard.writeText(emails);
+    toast(`Copied ${subscribers.length} email address${subscribers.length === 1 ? '' : 'es'}.`);
+  } catch (err) {
+    toast('Could not copy emails.', true);
+  }
+}
+
 // ---------- Account ----------
 async function loadAccount() {
   const data = await api('/api/admin/whoami');
@@ -675,6 +723,7 @@ async function saveAccountPassword() {
   loadStories();
   loadNews();
   loadInquiries();
+  loadSubscribers();
   loadAccount();
 
   $('settings-save').addEventListener('click', saveSettings);
@@ -688,5 +737,6 @@ async function saveAccountPassword() {
   $('story-cancel').addEventListener('click', resetStoryForm);
   $('news-form').addEventListener('submit', submitNewsForm);
   $('news-cancel').addEventListener('click', resetNewsForm);
+  $('subscribers-copy').addEventListener('click', copyAllSubscriberEmails);
   $('acc-save').addEventListener('click', saveAccountPassword);
 })();

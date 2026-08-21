@@ -55,4 +55,27 @@ router.post('/inquiries', express.json(), (req, res) => {
   res.status(201).json({ ok: true });
 });
 
+// ---------- Newsletter subscribe ----------
+router.post('/subscribe', express.json(), (req, res) => {
+  const { email, website } = req.body || {};
+
+  // Same honeypot pattern as the inquiry form.
+  if (website) return res.json({ ok: true });
+
+  const trimmed = (email || '').trim().toLowerCase();
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!trimmed || !EMAIL_RE.test(trimmed) || trimmed.length > 200) {
+    return res.status(400).json({ error: 'Please enter a valid email address.' });
+  }
+
+  const existing = db.get('subscribers').find({ email: trimmed }).value();
+  if (existing) return res.json({ ok: true }); // already subscribed, no error needed
+
+  const crypto = require('crypto');
+  db.get('subscribers')
+    .push({ id: `subscribers-${crypto.randomBytes(6).toString('hex')}`, email: trimmed, createdAt: new Date().toISOString() })
+    .write();
+  res.status(201).json({ ok: true });
+});
+
 module.exports = router;
