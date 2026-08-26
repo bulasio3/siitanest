@@ -6,6 +6,7 @@ const db = require('../utils/db');
 const { upload, uploadVideo } = require('../middleware/upload');
 const { changePassword, readAdmin } = require('../utils/adminStore');
 const imageStore = require('../utils/imageStore');
+const { addWatermark } = require('../utils/watermark');
 
 const ALLOWED_FOLDERS = new Set(['gallery', 'stories', 'news', 'programs', 'misc']);
 const VIDEO_EXTENSION = { 'video/mp4': 'mp4', 'video/webm': 'webm', 'video/quicktime': 'mov' };
@@ -20,11 +21,18 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     const filename = `${crypto.randomBytes(12).toString('hex')}.jpg`;
 
     // Re-encode to a reasonable web size/quality regardless of source format.
-    const buffer = await sharp(req.file.buffer)
+    let buffer = await sharp(req.file.buffer)
       .rotate()
       .resize({ width: 1600, withoutEnlargement: true })
       .jpeg({ quality: 82 })
       .toBuffer();
+
+    // Gallery photos get a permanent "© Org Name" watermark burned into the
+    // image itself, so ownership is visible even if the photo is downloaded.
+    if (folder === 'gallery') {
+      const orgName = db.get('settings').value().orgName || 'Siitanest';
+      buffer = await addWatermark(buffer, orgName);
+    }
 
     const url = await imageStore.saveImage(folder, filename, buffer, 'image/jpeg');
     res.json({ url });
