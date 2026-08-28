@@ -241,6 +241,25 @@ button { font-family: inherit; cursor: pointer; }
   object-fit: cover;
 }
 
+/* Full-bleed variant: the homepage "See Our Work" video stretches edge-to-edge
+   across the full browser width in a wide landscape band, instead of being
+   boxed into the page's normal content width. It works simply because this
+   wrapper sits outside .container (which is what applies the max-width) —
+   no viewport-width tricks needed, so there's no horizontal-scrollbar risk. */
+.full-bleed-video {
+  width: 100%;
+}
+.full-bleed-video .video-embed {
+  border-radius: 0;
+  box-shadow: none;
+  aspect-ratio: 21/9;
+}
+@media (max-width: 700px) {
+  /* Keep it a true landscape shape even on narrow phones, rather than
+     stretching tall and cropping too much of the video away. */
+  .full-bleed-video .video-embed { aspect-ratio: 16/9; }
+}
+
 /* About */
 .about-grid {
   display: grid;
