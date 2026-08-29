@@ -130,6 +130,8 @@ async function loadSettings() {
   if (s.heroImage) $('s-heroImage-preview').style.backgroundImage = `url('${s.heroImage}')`;
   if (s.aboutImage) $('s-aboutImage-preview').style.backgroundImage = `url('${s.aboutImage}')`;
   if (s.heroVideoUrl) $('s-heroVideo-preview').src = s.heroVideoUrl;
+  $('s-videoOverlayTitle').value = s.videoOverlayTitle || '';
+  $('s-videoOverlayText').value = s.videoOverlayText || '';
 }
 
 async function saveSettings() {
@@ -145,6 +147,8 @@ async function saveSettings() {
       orgTagline: $('s-orgTagline').value.trim(),
       heroHeadline: $('s-heroHeadline').value.trim(),
       heroSubtext: $('s-heroSubtext').value.trim(),
+      videoOverlayTitle: $('s-videoOverlayTitle').value.trim(),
+      videoOverlayText: $('s-videoOverlayText').value.trim(),
       aboutTitle: $('s-aboutTitle').value.trim(),
       aboutText: $('s-aboutText').value.trim(),
       historyTitle: $('s-historyTitle').value.trim(),

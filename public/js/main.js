@@ -28,7 +28,7 @@ function renderHomepageSettings(settings) {
 // The hero video is always our own uploaded file (no YouTube/Vimeo — nothing
 // links away from the page). It plays silently and automatically with no
 // controls; visitors can't pause it, seek it, or click through anywhere.
-function renderHeroVideo(url) {
+function renderHeroVideo(url, overlayTitle, overlayText) {
   const wrap = document.getElementById('hero-video-wrap');
   if (!wrap) return;
 
@@ -37,7 +37,18 @@ function renderHeroVideo(url) {
     return;
   }
 
-  wrap.innerHTML = `<div class="video-embed"><video id="hero-video-el" src="${escapeHtml(url)}" muted loop playsinline autoplay preload="auto" disablepictureinpicture disableremoteplayback></video></div>`;
+  const overlayHtml = (overlayTitle || overlayText)
+    ? `<div class="video-overlay">
+         ${overlayTitle ? `<h2>${escapeHtml(overlayTitle)}</h2>` : ''}
+         ${overlayText ? `<p>${escapeHtml(overlayText)}</p>` : ''}
+       </div>`
+    : '';
+
+  wrap.innerHTML = `
+    <div class="video-embed">
+      <video id="hero-video-el" src="${escapeHtml(url)}" muted loop playsinline autoplay preload="auto" disablepictureinpicture disableremoteplayback></video>
+      ${overlayHtml}
+    </div>`;
 
   // Play automatically as soon as it's visible on screen, pause once
   // scrolled away (saves bandwidth/battery) — resumes automatically when
@@ -128,7 +139,7 @@ function renderNews(news) {
     const data = await loadSiteData();
     renderChrome(data.settings);
     renderHomepageSettings(data.settings);
-    renderHeroVideo(data.settings.heroVideoUrl);
+    renderHeroVideo(data.settings.heroVideoUrl, data.settings.videoOverlayTitle, data.settings.videoOverlayText);
     renderPrograms(data.programs);
     renderGalleryPreview(data.gallery);
     renderStory(data.stories);
