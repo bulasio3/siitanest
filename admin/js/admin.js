@@ -126,7 +126,7 @@ async function loadSettings() {
   const social = s.socialLinks || {};
   $('s-social-facebook').value = social.facebook || '';
   $('s-social-instagram').value = social.instagram || '';
-  $('s-social-twitter').value = social.twitter || '';
+  $('s-social-linkedin').value = social.linkedin || '';
   $('s-social-youtube').value = social.youtube || '';
 
   if (s.heroImage) $('s-heroImage-preview').style.backgroundImage = `url('${s.heroImage}')`;
@@ -176,7 +176,7 @@ async function saveSettings() {
       socialLinks: {
         facebook: $('s-social-facebook').value.trim(),
         instagram: $('s-social-instagram').value.trim(),
-        twitter: $('s-social-twitter').value.trim(),
+        linkedin: $('s-social-linkedin').value.trim(),
         youtube: $('s-social-youtube').value.trim()
       }
     };
