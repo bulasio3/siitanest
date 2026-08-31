@@ -4,7 +4,7 @@
 const SOCIAL_ICONS = {
   facebook: 'f',
   instagram: '&#128247;',
-  twitter: 'X',
+  linkedin: 'in',
   youtube: '&#9654;'
 };
 
