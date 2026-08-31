@@ -108,6 +108,7 @@ async function loadSettings() {
   $('s-missionText').value = s.missionText || '';
   $('s-visionText').value = s.visionText || '';
   $('s-address').value = s.address || '';
+  $('s-poBox').value = s.poBox || '';
   $('s-phone').value = s.phone || '';
   $('s-email').value = s.email || '';
   $('s-donateUrl').value = s.donateUrl && s.donateUrl !== '#donate' ? s.donateUrl : '';
@@ -121,6 +122,7 @@ async function loadSettings() {
   $('s-bankAccountName').value = s.bankAccountName || '';
   $('s-bankAccountNumber').value = s.bankAccountNumber || '';
   $('s-bankBranch').value = s.bankBranch || '';
+  $('s-bankSwiftCode').value = s.bankSwiftCode || '';
   const social = s.socialLinks || {};
   $('s-social-facebook').value = social.facebook || '';
   $('s-social-instagram').value = social.instagram || '';
@@ -156,6 +158,7 @@ async function saveSettings() {
       missionText: $('s-missionText').value.trim(),
       visionText: $('s-visionText').value.trim(),
       address: $('s-address').value.trim(),
+      poBox: $('s-poBox').value.trim(),
       phone: $('s-phone').value.trim(),
       email: $('s-email').value.trim(),
       donateUrl: $('s-donateUrl').value.trim(),
@@ -169,6 +172,7 @@ async function saveSettings() {
       bankAccountName: $('s-bankAccountName').value.trim(),
       bankAccountNumber: $('s-bankAccountNumber').value.trim(),
       bankBranch: $('s-bankBranch').value.trim(),
+      bankSwiftCode: $('s-bankSwiftCode').value.trim(),
       socialLinks: {
         facebook: $('s-social-facebook').value.trim(),
         instagram: $('s-social-instagram').value.trim(),

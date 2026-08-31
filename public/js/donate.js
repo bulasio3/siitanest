@@ -47,6 +47,11 @@ function renderDonateMethods(settings) {
             <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(settings.bankAccountNumber)}', this)">Copy</button>
           </div>` : ''}
         ${settings.bankBranch ? `<div class="donate-row"><div><div class="label">Branch</div><div class="value">${escapeHtml(settings.bankBranch)}</div></div></div>` : ''}
+        ${settings.bankSwiftCode ? `
+          <div class="donate-row">
+            <div><div class="label">SWIFT / BIC Code</div><div class="value">${escapeHtml(settings.bankSwiftCode)}</div></div>
+            <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(settings.bankSwiftCode)}', this)">Copy</button>
+          </div>` : ''}
       </div>`);
   }
 

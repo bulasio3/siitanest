@@ -16,6 +16,7 @@
     "historyTitle": "Our Story",
     "historyText": "",
     "address": "Siitanest Mother's Love Home,Bugembe Nakanyonyi, Jinja, Uganda",
+    "poBox": "",
     "phone": "+256707915043/+256780504880",
     "email": "siita.nml@gmail.com",
     "donateUrl": "#donate",
@@ -27,6 +28,7 @@
     "bankAccountName": "",
     "bankAccountNumber": "",
     "bankBranch": "",
+    "bankSwiftCode": "",
     "donateNote": "",
     "footerNote": "Giving Hope. Building Futures.",
     "socialLinks": {

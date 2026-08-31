@@ -45,10 +45,16 @@ if (mongo.isEnabled()) {
       if (existing) {
         delete existing._id;
         db.setState(existing).write();
-        // Fill in any fields/collections that didn't exist yet when this data
-        // was first saved (e.g. new settings fields or a new collection added
-        // in a later update) without touching anything already saved.
+        // Fill in any *top-level* keys that didn't exist yet (e.g. a whole
+        // new collection like "inquiries") — this alone won't reach inside
+        // "settings", since that key already exists as an object.
         db.defaults(defaultData).write();
+        // Settings is a flat key/value object that keeps growing new fields
+        // over time (e.g. adding a "poBox" or "bankSwiftCode" field later).
+        // Explicitly merge those in too, without touching anything already
+        // saved, so new fields don't silently stay undefined on sites whose
+        // settings already existed before that field was introduced.
+        db.set('settings', { ...defaultData.settings, ...db.get('settings').value() }).write();
         console.log('Loaded site content from MongoDB.');
       } else {
         await collection.insertOne({ _id: 'content', ...defaultData });
@@ -71,7 +77,8 @@ if (mongo.isEnabled()) {
   }
   const adapter = new FileSync(DB_PATH);
   db = low(adapter);
-  db.defaults({ settings: {}, stats: [], programs: [], gallery: [], stories: [], news: [], team: [] }).write();
+  db.defaults(defaultData).write();
+  db.set('settings', { ...defaultData.settings, ...db.get('settings').value() }).write();
   ready = Promise.resolve();
 }
 

@@ -68,9 +68,22 @@ function renderChrome(settings) {
   if (footerOrgName) footerOrgName.textContent = (settings.orgName || '').toUpperCase();
   if (footerOrgSub) footerOrgSub.textContent = settings.orgTagline || '';
   if (footerNote) footerNote.textContent = settings.footerNote || '';
-  if (footerAddress) footerAddress.innerHTML = `&#128205; ${escapeHtml(settings.address || '')}`;
-  if (footerPhone) footerPhone.innerHTML = `&#128222; ${escapeHtml(settings.phone || '')}`;
-  if (footerEmail) footerEmail.innerHTML = `&#9993; ${escapeHtml(settings.email || '')}`;
+  if (footerAddress) {
+    const addressLine = [settings.address, settings.poBox ? `P.O. Box ${settings.poBox}` : '']
+      .filter(Boolean)
+      .join(' · ');
+    footerAddress.innerHTML = `&#128205; ${escapeHtml(addressLine)}`;
+  }
+  if (footerPhone) {
+    footerPhone.innerHTML = settings.phone
+      ? `&#128222; <a href="tel:${escapeHtml(settings.phone.replace(/[^\d+]/g, ''))}">${escapeHtml(settings.phone)}</a>`
+      : '&#128222;';
+  }
+  if (footerEmail) {
+    footerEmail.innerHTML = settings.email
+      ? `&#9993; <a href="mailto:${escapeHtml(settings.email)}">${escapeHtml(settings.email)}</a>`
+      : '&#9993;';
+  }
   if (footerBottom) {
     footerBottom.textContent = `© ${new Date().getFullYear()} ${settings.orgName || ''} ${settings.orgTagline || ''}. All Rights Reserved.`;
   }
