@@ -7,6 +7,31 @@ const mongo = require('./mongo');
 const DEFAULT_PATH = path.join(__dirname, '..', 'data', 'db.default.json');
 const defaultData = JSON.parse(fs.readFileSync(DEFAULT_PATH, 'utf-8'));
 
+// Merges saved settings with the current defaults: any field present in
+// `existing` wins, any field missing from it falls back to the default —
+// this is what makes newly-added settings fields (poBox, bankSwiftCode,
+// videoOverlayTitle, etc.) work automatically on sites whose settings
+// already existed before that field was introduced.
+//
+// socialLinks needs its own pass rather than a plain top-level spread: it's
+// a nested object, so a shallow merge would either wipe out a newly-added
+// platform (if the existing object fully overwrites it) or leave a stale
+// renamed platform lingering forever (e.g. "twitter" after switching that
+// slot to "linkedin"). Rebuilding it strictly from the shape defined in
+// defaults fixes both: every current platform gets its saved value (or an
+// empty default), and anything no longer in the default shape is dropped.
+function mergeSettings(existing) {
+  const merged = { ...defaultData.settings, ...existing };
+  if (defaultData.settings.socialLinks) {
+    merged.socialLinks = {};
+    for (const key of Object.keys(defaultData.settings.socialLinks)) {
+      merged.socialLinks[key] =
+        (existing.socialLinks && existing.socialLinks[key]) || defaultData.settings.socialLinks[key];
+    }
+  }
+  return merged;
+}
+
 let db;
 let ready;
 
@@ -54,7 +79,7 @@ if (mongo.isEnabled()) {
         // Explicitly merge those in too, without touching anything already
         // saved, so new fields don't silently stay undefined on sites whose
         // settings already existed before that field was introduced.
-        db.set('settings', { ...defaultData.settings, ...db.get('settings').value() }).write();
+        db.set('settings', mergeSettings(db.get('settings').value())).write();
         console.log('Loaded site content from MongoDB.');
       } else {
         await collection.insertOne({ _id: 'content', ...defaultData });
@@ -78,7 +103,7 @@ if (mongo.isEnabled()) {
   const adapter = new FileSync(DB_PATH);
   db = low(adapter);
   db.defaults(defaultData).write();
-  db.set('settings', { ...defaultData.settings, ...db.get('settings').value() }).write();
+  db.set('settings', mergeSettings(db.get('settings').value())).write();
   ready = Promise.resolve();
 }
 
