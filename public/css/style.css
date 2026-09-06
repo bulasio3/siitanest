@@ -535,7 +535,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .team-card h4 { font-size: 16px; margin-bottom: 4px; }
 .team-role { font-size: 13px; color: var(--green-700); font-weight: 700; margin-bottom: 8px; }
-.team-bio { font-size: 13px; color: var(--ink-600); line-height: 1.5; }
+.team-bio { font-size: 13px; color: var(--ink-600); line-height: 1.5; font-weight: 700; }
 
 /* Program detail page */
 .program-icon-lg {
