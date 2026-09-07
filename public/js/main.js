@@ -139,7 +139,13 @@ function renderNews(news) {
     const data = await loadSiteData();
     renderChrome(data.settings);
     renderHomepageSettings(data.settings);
-    renderHeroVideo(data.settings.heroVideoUrl, data.settings.videoOverlayTitle, data.settings.videoOverlayText);
+    // The homepage welcome video is a small static file committed directly
+    // into the codebase (public/videos/welcome.mp4) rather than stored in
+    // MongoDB — this skips the database round-trip entirely for the fastest
+    // possible load, since it's just a plain file served straight from disk.
+    // To change the video, replace public/videos/welcome.mp4 in the code
+    // and redeploy (the admin panel's video upload is no longer used here).
+    renderHeroVideo('/videos/welcome.mp4', data.settings.videoOverlayTitle, data.settings.videoOverlayText);
     renderPrograms(data.programs);
     renderGalleryPreview(data.gallery);
     renderStory(data.stories);
